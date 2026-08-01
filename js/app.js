@@ -35,9 +35,13 @@ function getMarketStatus() {
   const day = ny.getDay();
   const minutes = ny.getHours() * 60 + ny.getMinutes();
   if (day === 0 || day === 6) return 'MARKET CLOSED · WEEKEND';
-  if (minutes < 570) return 'PRE-MARKET';
+  if (minutes < 570) return 'MARKET CLOSED · PRE-MARKET';
   if (minutes >= 570 && minutes < 960) return 'MARKET OPEN';
-  return 'AFTER HOURS';
+  return 'MARKET CLOSED · AFTER HOURS';
+}
+
+function isMarketClosed() {
+  return getMarketStatus().includes('MARKET CLOSED');
 }
 
 function tickClock() {
@@ -90,15 +94,18 @@ function fallbackQuotes() {
 
 async function fetchQuotes() {
   try {
+    const marketClosed = isMarketClosed();
     const symbols = TICKERS.join(',');
     const data = await fetchJSON(`https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbols}`);
     const result = data?.quoteResponse?.result || [];
     if (!result.length) throw new Error('no-results');
     const quotes = {};
     result.forEach((q) => {
-      if (!q.symbol || q.regularMarketPrice == null) return;
+      if (!q.symbol) return;
+      const closePrice = q.regularMarketPrice ?? q.regularMarketPreviousClose;
+      if (closePrice == null) return;
       quotes[q.symbol] = {
-        price: q.regularMarketPrice,
+        price: marketClosed ? closePrice : (q.regularMarketPrice ?? closePrice),
         changePercent: q.regularMarketChangePercent ?? 0
       };
     });

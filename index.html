@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NewsMI — News-Driven Market Intelligence</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="NewsMI — a news-driven market intelligence dashboard: real-time event feed, sentiment-to-price signal scatter, and a 30-ticker sentiment heatmap.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="mark">MI</div>
+    <div>
+      <h1>NewsMI</h1>
+      <span>NEWS-DRIVEN MARKET INTELLIGENCE</span>
+    </div>
+  </div>
+  <div class="hstatus">
+    <div class="pill"><div class="dot"></div>LIVE · 30 TICKERS</div>
+    <div class="pill">SESSION <span class="clock" id="clock">09:47:12 EDT</span></div>
+    <div class="pill">BACKTEST: 1‑WEEK WINDOW</div>
+  </div>
+</header>
+
+<div class="tape-wrap">
+  <div class="tape" id="tape"></div>
+</div>
+
+<div class="layout">
+
+  <!-- LEFT: NEWS FEED -->
+  <div class="col">
+    <div class="panel-head"><h2>Event Feed</h2><span class="count" id="feedCount">— stories today</span></div>
+    <div class="feed" id="feed"></div>
+  </div>
+
+  <!-- CENTER -->
+  <div class="col">
+    <div class="stats-row">
+      <div class="stat"><div class="v" id="statArticles">—</div><div class="l">ARTICLES / DAY</div></div>
+      <div class="stat"><div class="v up" id="statMove">—</div><div class="l">AVG MOVE, FLAGGED EVENTS</div></div>
+      <div class="stat"><div class="v cyan" id="statCorr">—</div><div class="l">SENTIMENT↔MOVE CORR.</div></div>
+      <div class="stat"><div class="v" id="statSources">—</div><div class="l">WEIGHTED SOURCES</div></div>
+    </div>
+
+    <div class="chart-box">
+      <div class="chart-title">Signal Scatter — Sentiment Score vs. Same‑Day Close Move</div>
+      <div class="chart-sub">Each point is one flagged high‑impact event · size = article volume on the story · amber ring = event used in backtest validation</div>
+      <div class="chart-frame"><canvas id="scatterChart"></canvas></div>
+      <div class="legend-row">
+        <span><i style="background:var(--up)"></i>Positive sentiment</span>
+        <span><i style="background:var(--down)"></i>Negative sentiment</span>
+        <span><i style="background:var(--text-dim)"></i>Neutral / mixed</span>
+        <span><i style="background:transparent;border:2px solid var(--signal)"></i>High‑impact flag</span>
+      </div>
+    </div>
+
+    <div class="scenario">
+      <div class="chart-title" style="margin-bottom:12px;">Probabilistic Scenario Model — Next‑Close Bias</div>
+      <div id="scenarioList"></div>
+    </div>
+  </div>
+
+  <!-- RIGHT: HEATMAP -->
+  <div class="col">
+    <div class="panel-head"><h2>Ticker Heatmap</h2><span class="count">sentiment score</span></div>
+    <div class="heatgrid" id="heatgrid"></div>
+    <div class="corr-box">
+      <div class="cb-head">Correlation Analysis</div>
+      <div class="corr-val" id="corrBig">—</div>
+      <div class="corr-note">Modest positive relationship between sentiment shift and same‑day price movement, sampled across ~15–30 back‑tested events per run.</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="sources" id="sourceStrip"></div>
+  <div class="foot-note">MOCK DATA — ILLUSTRATIVE UI, NOT LIVE MARKET FEED</div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

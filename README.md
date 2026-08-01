@@ -4,7 +4,7 @@ A dashboard concept for a real-time news intelligence platform: an event feed wi
 
 This repo is a **static front-end demo** — all data in `js/app.js` is generated client-side to illustrate the UI and the shape of the underlying signal (sentiment score vs. same-day price move, source-weighted event flagging, correlation analysis). It's built to drop a real backend in behind it with minimal changes.
 
-**[View the live site](#)** *(fill in once GitHub Pages is enabled — see below)*
+**[View the live site](https://atriezkuda.github.io/NewsMI/)**
 
 ## Project structure
 
@@ -34,24 +34,15 @@ python3 -m http.server 8000
 
 ## Deploying with GitHub Pages
 
-1. Create a new GitHub repo (e.g. `newsmi`) and push this folder to it:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit: NewsMI dashboard"
-   git branch -M main
-   git remote add origin https://github.com/<your-username>/newsmi.git
-   git push -u origin main
+This repository includes a GitHub Actions workflow at `.github/workflows/deploy-pages.yml` that deploys the site automatically on every push to `main`.
+
+1. Open **Settings → Pages** in this repository.
+2. Under **Build and deployment**, set **Source** to `GitHub Actions`.
+3. Push to `main` (or re-run the **Deploy GitHub Pages** workflow from the **Actions** tab).
+4. The site is published at:
    ```
-2. On GitHub, go to **Settings → Pages**.
-3. Under **Build and deployment**, set **Source** to `Deploy from a branch`.
-4. Set **Branch** to `main` and folder to `/ (root)`, then **Save**.
-5. GitHub will publish the site at:
+   https://atriezkuda.github.io/NewsMI/
    ```
-   https://<your-username>.github.io/newsmi/
-   ```
-   (First deploy usually takes 1–2 minutes; check the **Actions** tab or the Pages settings panel for the live URL and status.)
-6. Optional: add that URL back into this README and to your resume/portfolio link.
 
 ## Wiring up real data
 
